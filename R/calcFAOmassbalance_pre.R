@@ -19,7 +19,7 @@
 #' @importFrom compiler cmpfun
 #' @importFrom madrat madlapply
 
-calcFAOmassbalance_pre <- function(years=paste0("y",(seq(1965,2010,5)))) {
+calcFAOmassbalance_pre <- function(years=paste0("y",(seq(1965:2010)))) {
   
   # CHN y2010 Groundnut Oil stockvariation p
   # CHN y2010 Other and products feed k 

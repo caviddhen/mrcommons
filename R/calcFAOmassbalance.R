@@ -20,7 +20,10 @@
 
 
 calcFAOmassbalance<-function(){
-  mb<-calcOutput("FAOmassbalance_pre",aggregate = FALSE)
+  
+  ### new years
+  mb<-calcOutput("FAOmassbalance_pre",years=c(1965:2010),aggregate = FALSE)
+  ###
   past<-findset("past")
   mb1<-add_columns(mb,dim = 3.2,addnm = "bioenergy")
   mb1[,,"bioenergy"]<-0

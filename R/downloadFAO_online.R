@@ -54,6 +54,7 @@ downloadFAO_online <- function(subtype) {
     Pop                     = "Population_E_All_Data_(Normalized).zip",
     PricesProducerAnnual    = "Prices_E_All_Data_(Normalized).zip",
     PricesProducerAnnualLCU = "Prices_E_All_Data_(Normalized).zip",
+    PricesProducerAnnualLCUOld = "PricesArchive_E_All_Data_(Normalized).zip",
     ValueOfProd             = "Value_of_Production_E_All_Data_(Normalized).zip"
   )
 

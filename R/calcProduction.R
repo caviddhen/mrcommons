@@ -6,6 +6,8 @@
 #' @param calibrated if FALSE, lpj yields will be used uncalibrated, if true, calibrated on FAP production on country level
 #' @param attributes "All" for all crop attributes, or specify e.g. DM (dry matter), Nr (nitrogen) for memory reduction
 #' @param irrigation if TRUE, additional information on irrigated and rainfed production is provided
+#' @param years all, past, or a vector of years
+#' 
 #' @return List of magpie objects with results on country level, weight on country level, unit and description.
 #' @author Benjamin Leon Bodirsky
 #' @seealso
@@ -20,10 +22,15 @@
 #' @importFrom magclass getSets magpie_expand
 
 
-calcProduction<-function(products="kcr", cellular=FALSE, calibrated=TRUE, attributes="all", irrigation=FALSE){
+calcProduction<-function(products="kcr", years="past", cellular=FALSE, calibrated=TRUE, attributes="all", irrigation=FALSE){
   
-  selectyears <- findset("past")
-  
+  if (years=="past"){
+    selectyears<-findset("past")
+  } else if (years=="all"){
+    selectyears <- NULL
+  } else{
+    selectyears <- years
+  }  
   if (products=="kcr"){
     
     MAGcroptypes  <- findset("kcr")

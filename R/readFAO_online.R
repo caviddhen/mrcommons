@@ -28,6 +28,7 @@
 #' \item \code{ForestProdTrade}: Forestry Production and Trade ("Forestry_E_All_Data_(Normalized).zip")
 #' \item \code{PricesProducerAnnual}: Producer Prices - Annual ("Prices_E_All_Data.zip")
 #' \item \code{PricesProducerAnnualLCU}: Producer Prices - Annual in LCU ("Prices_E_All_Data.zip")
+#' \item \code{PricesProducerAnnualOldLCU}: Archived 1961 Producer Prices - Annual in LCU ("Prices_E_All_Data.zip")
 #' \item \code{ValueOfProd}: Value of Agricultural Production ("Value_of_Production_E_All_Data.zip") 
 #' }
 #' @return FAO data as MAgPIE object
@@ -85,6 +86,7 @@ readFAO_online <- function(subtype) {
     Pop                     = c("Population_E_All_Data.zip"),
     PricesProducerAnnual    = c("Prices_E_All_Data.zip"),
     PricesProducerAnnualLCU = c("Prices_E_All_Data.zip"),
+    PricesProducerAnnualLCUOld = c("PricesArchive_E_All_Data.zip"),
     ValueOfProd             = c("Value_of_Production_E_All_Data.zip")
     )
   

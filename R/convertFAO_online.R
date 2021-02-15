@@ -214,10 +214,11 @@ convertFAO_online <- function(x,subtype) {
      x <- toolCountryFill(x, fill=0, verbosity = 2)
      
   # Producer Prices Annual   
-  } else if(subtype %in% c("PricesProducerAnnual","PricesProducerAnnualLCU")){
+  } else if(subtype %in% c("PricesProducerAnnual","PricesProducerAnnualLCU", "PricesProducerAnnualLCUOld")){
     # FAO changed the unit. Look for all possible names and select only existing ones from the magpie object
     possible_names <- list (PricesProducerAnnual    = c("Producer_Price_(US_$_tonne)_(USD)","Producer_Price_(USD_tonne)_(USD)"),
-                            PricesProducerAnnualLCU = c("Producer_Price_(Standard_local_Currency_tonne)_(SLC)","Producer_Price_(SLC_tonne)_(SLC)"))
+                            PricesProducerAnnualLCU = c("Producer_Price_(Standard_local_Currency_tonne)_(SLC)","Producer_Price_(SLC_tonne)_(SLC)"),
+                            PricesProducerAnnualLCUOld = c("Producer_Price_(LCU_tonne)_(LCU)"))
     possible_names <- toolSubtypeSelect(subtype,possible_names)
     x <- collapseNames(x[,,possible_names[possible_names %in% getItems(x,dim=3.2)]])
     ## Serbia and Montenegro split
@@ -228,7 +229,20 @@ convertFAO_online <- function(x,subtype) {
     }
     ## Adjust prices of live animal weight to the carcass weight
     mapping <- toolGetMapping("FAO_livestock_carcass_price_factor.csv",type="sectoral",where="mrcommons")
-    for(item in mapping$FAO_carcass){
+   
+    if(subtype %in% c("PricesProducerAnnualLCUOld")){ # need to create the carcass categories in old data
+      for(item in mapping$FAO_carcass){
+      litem <- mapping$FAO_live_weigth[grep(item, mapping$FAO_carcass)]
+      
+      countries <- getRegions(which(!is.na(x[,,litem]),arr.ind=TRUE))
+      x <- add_columns(x, addnm=item)
+      x[countries,,item] <- x[countries,,litem]/mapping$Price_factor[grep(item, mapping$FAO_carcass)]
+      }
+      x[is.na(x)] <- 0
+      ##toolISOhistorical not used here, no possible transitions identified
+      x <- toolCountryFill(x, fill=0, verbosity=2)
+    } else {
+     for(item in mapping$FAO_carcass){
       litem <- mapping$FAO_live_weigth[grep(item, mapping$FAO_carcass)]
       countries <- getRegions(which(!is.na(x[,,item]),arr.ind=TRUE))
       countries <- setdiff(getRegions(x), countries)
@@ -237,7 +251,8 @@ convertFAO_online <- function(x,subtype) {
     x[is.na(x)] <- 0
     x <- toolISOhistorical(x, overwrite=TRUE, additional_mapping=additional_mapping)
     x <- toolCountryFill(x, fill=0, verbosity=2)
-
+    }
+    
   } else {
     cat("Specify in convertFAO whether dataset contains absolute or relative values!")
   }
