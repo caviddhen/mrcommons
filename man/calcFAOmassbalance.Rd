@@ -4,7 +4,7 @@
 \alias{calcFAOmassbalance}
 \title{calcFAOmassbalance}
 \usage{
-calcFAOmassbalance()
+calcFAOmassbalance(version = "join2010")
 }
 \value{
 List of magpie objects with results on country level, weight on country level, unit and description.
